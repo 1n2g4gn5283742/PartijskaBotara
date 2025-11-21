@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "PartijskaBotara",
+  "version": "1.0",
+  "description": "Detektovanje botova na X mreži",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.x.com/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.x.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
