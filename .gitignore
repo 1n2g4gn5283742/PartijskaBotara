@@ -1,0 +1,73 @@
+# ============================================================
+# PartijskaBotara - .gitignore
+# ============================================================
+# U repo idu SAMO fajlovi ekstenzije i dokumentacija.
+# Sve sto je "moja radna soba" (liste u cistom tekstu i skripte
+# koje ih prevode u heseve) ostaje lokalno i nikad se ne pushuje.
+# ============================================================
+
+
+# --- 1. LISTE U CISTOM TEKSTU (privatno) ------------------------------------
+# Sadrze stvarne korisnike; u repo idu samo njihovi hesevi.
+# Generisu se u: hash.txt i hash_whitelist.txt (ti IDU u repo).
+users.txt
+whitelist.txt
+
+
+# --- 2. ALATI ZA ODRZAVANJE (privatno) --------------------------------------
+# Skripte za odrzavanje projekta. Nisu potrebne za instalaciju ili rad
+# ekstenzije, pa ne idu u repo - repo je samo za korisnike.
+# Fajlovi ostaju lokalno (i dalje se mogu pokretati).
+tools/
+hash_users.bat
+hash_whitelist.bat
+make_hashes.py
+update_base.py
+azuriraj_bazu.bat
+sha256.vbs
+
+
+# --- 2b. ALATI ZA PROVERU LISTE (privatno) ----------------------------------
+# Skripte za analizu i proveru baze. Ne idu u repo.
+analiza_liste.py
+proveri_kandidate.js
+proveri_grupe.js
+kandidati.txt
+rezultat_provere.json
+provera_grupe.json
+
+
+# --- 3. Build artefakti -----------------------------------------------------
+*.zip
+*.xpi
+*.crx
+*.pem
+
+
+# --- 4. OS junk -------------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+._*
+
+
+# --- 5. Editor / IDE --------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+
+# --- 6. Python kes ----------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+
+
+# --- 7. Backup kopije -------------------------------------------------------
+*BACKUP*
+*backup*
+*- Copy*
+*- Kopija*

@@ -1,0 +1,15 @@
+# Normalizacija line endings - heš fajlovi MORAJU ostati ASCII sa LF završecima,
+# inače se sadržaj menja i ekstenzija ne prepoznaje heševe.
+*.txt text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.vbs text eol=crlf
+*.bat text eol=crlf
+
+# Binarne datoteke - nikakva konverzija line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

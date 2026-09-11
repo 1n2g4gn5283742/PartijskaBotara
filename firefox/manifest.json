@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "PartijskaBotara",
+  "version": "1.0",
+  "description": "Označava naloge sa liste na X.com crvenom bojom i BOT oznakom. Baza se sama ažurira sa GitHub-a.",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": ["*://*.x.com/*", "https://raw.githubusercontent.com/*"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "PartijskaBotara",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["hash.txt", "hash_whitelist.txt"],
+      "matches": ["*://*.x.com/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.x.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "partijskabotara@local",
+      "strict_min_version": "115.0"
+    }
+  }
+}

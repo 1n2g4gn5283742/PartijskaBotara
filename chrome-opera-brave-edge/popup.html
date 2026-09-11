@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PartijskaBotara</title>
+  <style>
+    body {
+      font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+      width: 320px;
+      margin: 0;
+      padding: 14px 16px 16px;
+      color: #14171a;
+      font-size: 14px;
+    }
+    h1 { font-size: 15px; margin: 0 0 2px; }
+    .sub { color: #667085; font-size: 12px; margin: 0 0 12px; }
+
+    .big { text-align: center; margin: 6px 0 14px; }
+    .big .num { font-size: 34px; font-weight: 700; line-height: 1; color: #cc2020; }
+    .big .lbl { font-size: 12px; color: #667085; margin-top: 4px; }
+
+    .rows { border-top: 1px solid #eef0f2; }
+    .r { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eef0f2; }
+    .r .k { color: #667085; }
+    .r .v { font-weight: 500; text-align: right; }
+
+    .diff { margin: 12px 0 0; padding: 9px 11px; border-radius: 8px; font-size: 13px; display: none; }
+    .diff.show { display: block; }
+    .diff.ok { background: #e8f5e9; border: 1px solid #b7e0ba; }
+    .diff.same { background: #f2f4f6; border: 1px solid #e2e6ea; }
+    .diff.err { background: #fdecea; border: 1px solid #f5c2bd; }
+    .diff .add { color: #1b7f2e; font-weight: 700; }
+    .diff .rem { color: #b3261e; font-weight: 700; }
+    .diff .dtitle { font-weight: 600; margin-bottom: 5px; }
+    .diff .drow { display: flex; justify-content: space-between; gap: 10px; padding: 2px 0; }
+    .diff .drow .dk { color: #44505c; }
+    .diff .drow .dv { white-space: nowrap; }
+    .diff .dtime { color: #667085; font-size: 12px; margin-top: 5px; }
+
+    button {
+      width: 100%;
+      padding: 9px 14px;
+      margin-top: 10px;
+      background: #cc2020;
+      color: #fff;
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    button:hover { background: #a81a1a; }
+    button:disabled { opacity: .55; cursor: default; }
+    button.sec { background: #eef0f2; color: #14171a; }
+    button.sec:hover { background: #e0e4e8; }
+
+    .two { display: flex; gap: 8px; }
+    .two button { margin-top: 8px; }
+
+    a.link { display: block; text-align: center; margin-top: 12px; color: #1d9bf0; font-size: 12px; text-decoration: none; }
+    a.link:hover { text-decoration: underline; }
+
+    .msg { font-size: 12px; margin-top: 8px; text-align: center; min-height: 15px; color: #667085; }
+  </style>
+</head>
+<body>
+  <h1>PartijskaBotara</h1>
+  <p class="sub">Baza naloga na X.com</p>
+
+  <div class="big">
+    <div class="num" id="effective">–</div>
+    <div class="lbl">naloga se trenutno označava</div>
+  </div>
+
+  <div class="rows">
+    <div class="r"><span class="k">Ukupno u bazi</span><span class="v" id="botCount">–</span></div>
+    <div class="r"><span class="k">Izuzetaka (whitelist)</span><span class="v" id="wlCount">–</span></div>
+    <div class="r"><span class="k">Izvor</span><span class="v" id="source">–</span></div>
+    <div class="r"><span class="k">Poslednja provera</span><span class="v" id="checkedAt">–</span></div>
+    <div class="r"><span class="k">Poslednja promena</span><span class="v" id="updatedAt">–</span></div>
+  </div>
+
+  <div class="diff" id="diff"></div>
+
+  <button id="update">Ažuriraj bazu</button>
+
+  <div class="two">
+    <button class="sec" id="exportBot">Izvezi hash.txt</button>
+    <button class="sec" id="exportWl">Izvezi whitelist</button>
+  </div>
+
+  <div class="msg" id="msg"></div>
+
+  <a class="link" href="#" id="openOptions">Podešavanja</a>
+
+  <script src="popup.js"></script>
+</body>
+</html>

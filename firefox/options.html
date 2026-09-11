@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PartijskaBotara - Podešavanja</title>
+  <style>
+    body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 520px; margin: 40px auto; padding: 0 20px; color: #14171a; }
+    h2 { margin-bottom: 4px; }
+    h3 { margin: 0 0 6px; }
+    p.sub { color: #667085; margin-top: 0; font-size: 14px; }
+    .row { margin: 16px 0; }
+    label { display: block; margin-bottom: 4px; font-weight: 500; }
+    input[type="color"] { width: 60px; height: 32px; padding: 2px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; }
+    input[type="text"] { width: 200px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 8px 20px; background: #1d9bf0; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: 600; }
+    button:hover { background: #1a8cd8; }
+    button.secondary { background: #eef0f2; color: #14171a; }
+    button.secondary:hover { background: #e0e4e8; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    #status { color: #1b7f2e; margin-left: 12px; opacity: 0; transition: opacity 0.3s; font-weight: 600; }
+    #status.show { opacity: 1; }
+    hr { border: none; border-top: 1px solid #e5e5e5; margin: 28px 0; }
+    .box { background: #f7f7f7; border: 1px solid #e5e5e5; border-radius: 8px; padding: 12px 14px; font-size: 14px; line-height: 1.6; }
+    .box .k { color: #667085; }
+    .box.warn { background: #fff8e1; border-color: #ffe082; }
+    code { background: #eee; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+
+    /* Pregled kako oznaka izgleda */
+    .preview-wrap { margin-top: 8px; }
+    .preview-label { font-size: 12px; color: #667085; margin-bottom: 6px; }
+    .preview-post { border: 1px solid #e5e5e5; border-radius: 8px; padding: 12px 14px; transition: background-color .15s; }
+    .preview-name { font-weight: 700; }
+    .preview-handle { color: #667085; font-weight: 400; }
+    .preview-flag { color: red; font-weight: bold; padding-left: 5px; }
+  </style>
+</head>
+<body>
+  <h2>PartijskaBotara</h2>
+  <p class="sub">Podešavanja prikaza bot oznake</p>
+
+  <div class="row">
+    <label for="labelBg">Boja pozadine označenog naloga</label>
+    <input type="color" id="labelBg">
+  </div>
+
+  <div class="row">
+    <label for="labelText">Tekst oznake</label>
+    <input type="text" id="labelText" placeholder="BOT" maxlength="30">
+  </div>
+
+  <div class="preview-wrap">
+    <div class="preview-label">Pregled — ovako će izgledati označen post:</div>
+    <div class="preview-post" id="preview">
+      <span class="preview-name">Neki Nalog</span>
+      <span class="preview-handle">@neki_nalog</span><span class="preview-flag" id="previewFlag"> BOT</span>
+      <div style="color:#667085;font-size:13px;margin-top:6px;">Ovako izgleda post koji je na listi.</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <button id="save">Sačuvaj</button>
+    <span id="status">Sačuvano ✓</span>
+  </div>
+
+  <p class="sub" style="font-size:13px;">
+    Promena se primeti <b>odmah</b> na već otvorenom X tabu — nije potrebno osvežavanje stranice.
+  </p>
+
+  <hr>
+
+  <h3>Lista naloga</h3>
+  <div class="row">
+    <div id="listBox" class="box">Učitavanje…</div>
+  </div>
+
+  <button id="refreshList" class="secondary">Proveri sada</button>
+  <span id="listMsg" style="margin-left:12px;font-size:13px;color:#667085;"></span>
+
+  <script src="options.js"></script>
+</body>
+</html>
