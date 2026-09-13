@@ -44,6 +44,14 @@ provera_grupe.json
 *.pem
 
 
+# --- 3b. Node (lokalni dijagnosticki alati) ---------------------------------
+# ws je potreban samo za tools/scroll_probe.mjs (CDP dijagnostika) - nije
+# deo ekstenzije, pa ne ide u repo.
+node_modules/
+package.json
+package-lock.json
+
+
 # --- 4. OS junk -------------------------------------------------------------
 Thumbs.db
 ehthumbs.db
