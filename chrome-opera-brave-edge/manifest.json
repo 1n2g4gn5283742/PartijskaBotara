@@ -28,7 +28,7 @@
   "web_accessible_resources": [
     {
       "resources": ["hash.txt", "hash_whitelist.txt"],
-      "matches": ["<all_urls>"]
+      "matches": ["*://*.x.com/*"]
     }
   ],
   "content_scripts": [

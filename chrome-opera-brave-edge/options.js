@@ -82,14 +82,18 @@ function renderStatus(s) {
   }
 
   const lines = [];
+  const src = s.source;
+  const srcLabel = (src === 'github') ? '<b>GitHub</b> (aktuelna)' :
+    (src === 'github-cached') ? '<b>GitHub</b> (kesirana - poslednja provera nije uspela)' :
+    '<b>ugrađena</b> lista iz ekstenzije';
   if (s.botCount) {
     lines.push('<span class="k">Naloga u bazi:</span> <b>' + s.botCount + '</b>');
     lines.push('<span class="k">Izuzetaka (whitelist):</span> <b>' + (s.whitelistCount || 0) + '</b>');
     lines.push('<span class="k">Poslednja provera:</span> ' + fmt(s.checkedAt));
     lines.push('<span class="k">Poslednja promena:</span> ' + fmt(s.updatedAt));
-    lines.push('<span class="k">Izvor:</span> GitHub');
+    lines.push('<span class="k">Izvor:</span> ' + srcLabel);
   } else {
-    lines.push('<span class="k">Lista:</span> koristi se <b>ugrađena</b> lista iz ekstenzije');
+    lines.push('<span class="k">Lista:</span> koristi se ' + srcLabel);
     lines.push('<span class="k">Poslednja provera:</span> ' + fmt(s.checkedAt));
   }
   if (s.status) lines.push('<span class="k">Status:</span> ' + s.status);

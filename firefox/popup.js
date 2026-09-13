@@ -103,7 +103,9 @@ function render(status) {
   el('effective').textContent = num(status.effectiveCount);
   el('botCount').textContent = num(status.botCount);
   el('wlCount').textContent = num(status.whitelistCount);
-  el('source').textContent = (status.source === 'github') ? 'GitHub' : 'ugrađena u ekstenziju';
+  // github-cached = baza je sa GitHub-a, samo poslednja provera nije uspela
+  el('source').textContent = (status.source === 'github' || status.source === 'github-cached')
+    ? 'GitHub' : 'ugrađena u ekstenziju';
   el('checkedAt').textContent = fmt(status.checkedAt);
   el('updatedAt').textContent = fmt(status.updatedAt);
 
@@ -159,7 +161,8 @@ async function exportList(key, filename) {
 
   try {
     const res = await api.runtime.sendMessage({ type: 'getList', key: key });
-    if (!res || !res.ok || !res.text) {
+    // Prazna (validna) whitelist-a daje text === '' - to NIJE greska.
+    if (!res || !res.ok || typeof res.text !== 'string') {
       el('msg').textContent = 'Izvoz nije uspeo.';
       el('msg').style.color = '#b3261e';
       return;

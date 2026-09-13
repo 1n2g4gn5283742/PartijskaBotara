@@ -117,15 +117,29 @@ async function refresh(force) {
   }
 
   const prev = await api.storage.local.get(Object.keys(FILES));
+
+  // Oba fajla se preuzimaju PARALELNO (Promise.allSettled), pa rucno
+  // azuriranje u najgorem slucaju ceka jedan timeout (~20 s), a ne dva
+  // zaredom (~40 s).
+  const results = await Promise.allSettled(
+    Object.keys(FILES).map((key) => fetchText(RAW_BASE + REMOTE_DIR + FILES[key], force))
+  );
+
   const updates = {};
   const changed = [];        // kljucevi lista koje su se promenile
   let reached = false;
   const errors = [];
 
-  for (const key of Object.keys(FILES)) {
+  // Prva faza: SAMO preuzmi i validiraj obe liste - nista se ne upisuje.
+  const fetched = {};
+
+  for (let i = 0; i < Object.keys(FILES).length; i++) {
+    const key = Object.keys(FILES)[i];
     const file = FILES[key];
-    const remotePath = REMOTE_DIR + file;          // npr. chrome-opera-brave-edge/hash.txt
-    const result = await fetchText(RAW_BASE + remotePath, force);
+    const remotePath = REMOTE_DIR + file;
+    const result = (results[i].status === 'fulfilled')
+      ? results[i].value
+      : { error: String(results[i].reason || 'fetch nije uspeo') };
 
     if (result.notModified) {
       reached = true;
@@ -142,13 +156,26 @@ async function refresh(force) {
     // Lista izuzetaka sme biti prazna (ispravna baza bez izuzetaka), baza ne sme.
     const allowEmpty = (key === 'listWhitelist');
     if (!isValidList(result.text, allowEmpty)) {
-      errors.push(remotePath + ': sadrzaj nije validan, zadrzavam staru listu');
+      errors.push(remotePath + ': sadrzaj nije validan');
       continue;
     }
 
-    if (result.text !== prev[key]) {
-      updates[key] = result.text;     // UPIS u aktivnu bazu (storage.local)
-      changed.push(key);
+    fetched[key] = result.text;
+  }
+
+  // Druga faza: ATOMSKA AKTIVACIJA. Upisuje se SAMO ako su OBE liste u
+  // redu (ili 304/nepromenjene). Inace se NE upisuje ni jedna - inace bi
+  // npr. nova baza mogla da se aktivira uz STARU whitelistu.
+  if (errors.length) {
+    // Ne diramo nijednu listu - ostaju stare, konzistentne vrednosti.
+  } else {
+    for (const key of Object.keys(FILES)) {
+      const text = fetched[key];
+      if (text === undefined) continue;         // 304 - nepromenjeno
+      if (text !== prev[key]) {
+        updates[key] = text;                    // UPIS u aktivnu bazu (storage.local)
+        changed.push(key);
+      }
     }
   }
 
@@ -179,7 +206,7 @@ async function refresh(force) {
   if (errors.length) {
     updates.listStatus = reached
       ? errors.join(' | ')
-      : 'Nema veze sa GitHub-om - koristi se ugradjena lista';
+      : 'Nema veze sa GitHub-om';
     updates.listError = true;
   } else {
     updates.listError = false;
@@ -211,7 +238,9 @@ async function buildStatus() {
   let source;
 
   if (botText) {
-    source = 'github';
+    // Baza postoji u storage-u - doci je sa GitHub-a (svjeza ili kesirana
+    // ako je mreza/pad bio problem pri poslednjoj proveri).
+    source = data.listError ? 'github-cached' : 'github';
   } else {
     // Baza jos nije povucena - brojimo ugrađene fajlove
     try {
@@ -232,6 +261,9 @@ async function buildStatus() {
 
   return {
     ok: true,
+    // github = aktivna baza je skidneta sa GitHub-a;
+    // github-cached = isto, ali poslednja provera nije uspela (stariji kes);
+    // ugradjena = storage je prazan, koriste se fajlovi iz ekstenzije.
     source: source,
     repoConfigured: repoConfigured(),
     botCount: botSet.size,
